@@ -35,12 +35,6 @@ public class SchedulerService {
 
 	}
 
-	public static void main(String[] args) throws SchedulerException, InterruptedException {
-		new SchedulerService().run(AnotherJob.class, "job1", "group1", null);
-		new SchedulerService().run(TaskJob.class, "job2", "group1", "First task");
-		new SchedulerService().run(TaskJob.class, "job2", "group1", "Second task");
-	}
-
 	private <T extends Job> JobDetail createJobDetail(String jobName, String group, Class<T> myjob, String taskName) {
 		JobDetail jobDetail = newJob(myjob).withIdentity(jobName, group).usingJobData("taskName", taskName).build();
 		return jobDetail;
