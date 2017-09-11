@@ -4,6 +4,7 @@ import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.quartz.Job;
@@ -16,7 +17,7 @@ import org.quartz.impl.StdSchedulerFactory;
 
 public class SchedulerService {
 
-	public <T extends Job> void run(Class<T> myjob, String jobName, String group, String taskName) throws SchedulerException, InterruptedException {
+	public <T extends Job> void run(Class<T> myjob, String jobName, String group, List<String> invocationArgs) throws SchedulerException, InterruptedException {
 		Logger logger = Logger.getAnonymousLogger();
 		Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 		scheduler.start();
@@ -27,7 +28,7 @@ public class SchedulerService {
 				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForTotalCount(10)).build();
 
 		logger.info("trigger initialised, will end at");
-		scheduler.scheduleJob(createJobDetail(jobName, group, myjob, taskName), trigger);
+		scheduler.scheduleJob(createJobDetail(jobName, group, myjob, invocationArgs), trigger);
 		logger.info("thread sleeeps");
 		Thread.sleep(10000);
 		scheduler.shutdown();
@@ -35,7 +36,8 @@ public class SchedulerService {
 
 	}
 
-	private <T extends Job> JobDetail createJobDetail(String jobName, String group, Class<T> myjob, String taskName) {
+	private <T extends Job> JobDetail createJobDetail(String jobName, String group, Class<T> myjob, List<String> invocationArgs) {
+		String taskName = invocationArgs.get(0);
 		JobDetail jobDetail = newJob(myjob).withIdentity(jobName, group).usingJobData("taskName", taskName).build();
 		return jobDetail;
 	}
