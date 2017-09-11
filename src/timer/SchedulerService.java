@@ -31,13 +31,11 @@ public class SchedulerService {
 		scheduler.start();
 		logger.info("scheduler started");
 		
-		simpleSchedule().withIntervalInSeconds(2);
 		Trigger trigger = buildExactTimeTrigger(jobName, group, when);
 
-		logger.info("trigger initialised, will end at");
 		scheduler.scheduleJob(createJobDetail(jobName, group, myjob, invocationArgs), trigger);
 //		scheduler.shutdown();
-		logger.warning("scheduler stops");
+//		logger.warning("scheduler stops");
 
 	}
 
