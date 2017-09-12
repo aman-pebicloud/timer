@@ -1,4 +1,4 @@
-package timer;
+package timer.jobs;
 
 import org.quartz.Job;
 import org.quartz.JobDataMap;

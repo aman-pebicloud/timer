@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="/home/aman/Downloads/quartz-2.2.3/lib/log4j-1.2.16.jar"/>
 	<classpathentry kind="lib" path="/home/aman/Downloads/quartz-2.2.3/lib/quartz-jobs-2.2.3.jar"/>
 	<classpathentry kind="lib" path="/home/aman/Downloads/quartz-2.2.3/lib/quartz-2.2.3.jar"/>
+	<classpathentry kind="lib" path="/home/aman/Downloads/postgresql-9.4.1212.jre6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
