@@ -16,10 +16,10 @@ public class Run {
 	public static void main(String[] args) throws SchedulerException, InterruptedException, ParseException {
 		SchedulerService schedulerService = new SchedulerService();
 		
-		String task1startDateString = "09-12-2017 18:03:00";
+		String task1startDateString = "09-12-2017 19:37:00";
 		Date startDate1 = new SimpleDateFormat("MM-dd-yyyy HH:mm:SS").parse(task1startDateString);
 
-		String task2startDateString = "09-12-2017 18:03:00";
+		String task2startDateString = "09-12-2017 19:37:00";
 		Date startDate2 = new SimpleDateFormat("MM-dd-yyyy HH:mm:SS").parse(task2startDateString);
 		
 		JobDetail jobDetail = schedulerService.createJobDetail("job1", "group1", TaskJob.class, Arrays.asList("First Task", "Task param1", "Task Param2"));
