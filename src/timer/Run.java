@@ -14,7 +14,7 @@ import timer.jobs.TaskJob;
 public class Run {
 
 	public static void main(String[] args) throws SchedulerException, InterruptedException, ParseException {
-		SchedulerService schedulerService = new SchedulerService();
+		SchedulerServiceImpl schedulerService = new SchedulerServiceImpl();
 		
 		String task1startDateString = "09-12-2017 19:37:00";
 		Date startDate1 = new SimpleDateFormat("MM-dd-yyyy HH:mm:SS").parse(task1startDateString);
