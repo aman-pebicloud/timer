@@ -1,11 +1,13 @@
 package timer;
 
+import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 import java.util.Date;
 import java.util.List;
 
+import org.quartz.CronTrigger;
 import org.quartz.Job;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
@@ -48,12 +50,33 @@ public class SchedulerServiceImpl implements SchedulerService {
 		return jobDetail;
 	}
 
+	public <T extends Job> JobDetail createJobDetailWithCron(final String jobName, final String group,
+			final Class<T> myjob, final String cronExpression, final List<String> invocationArgs) {
+		String taskName = invocationArgs.get(0);
+		JobDetail jobDetail = newJob(myjob).withIdentity(jobName, group).usingJobData("taskName", taskName).build();
+		CronTrigger cronTrigger = buildCronTrigger(jobName, group, cronExpression);
+		try {
+			schedule(jobDetail, cronTrigger);
+			logger.info("*** Job created ***");
+		} catch (SchedulerException | InterruptedException e) {
+			logger.info("error occured in creating job with Cron, {}", e.getMessage());
+			e.printStackTrace();
+		}
+		return jobDetail;
+	}
+	
 	private SimpleTrigger buildExactTimeTrigger(final String jobName, final String group, final Date when) {
 		SimpleTrigger trigger = (SimpleTrigger) newTrigger().withIdentity(jobName, group).startAt(when).build();
 		logger.info("*** Trigger created with exact date, {} ***", when);
 		return trigger;
 	}
 
+	private CronTrigger buildCronTrigger(final String jobName, final String group, final String cronExpression) {
+		CronTrigger trigger = (CronTrigger) newTrigger().withIdentity(jobName, group).withSchedule(cronSchedule(cronExpression)).build();
+		logger.info("*** Trigger created with cron expression ***");
+		return trigger;
+	}
+	
 	public boolean jobExists(final JobDetail job) {
 		try {
 			return this.scheduler.getJobDetail(job.getKey()) != null;

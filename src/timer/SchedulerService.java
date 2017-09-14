@@ -17,6 +17,9 @@ public interface SchedulerService {
 	public <T extends Job> JobDetail createJobDetailWithDate(String jobName, String group, Class<T> myjob, Date when,
 			List<String> invocationArgs);
 
+	public <T extends Job> JobDetail createJobDetailWithCron(String jobName, String group, Class<T> myjob, String cronExpression,
+			List<String> invocationArgs);
+	
 	public boolean jobExists(final JobDetail job);
 
 	public void deleteJob(TriggerKey triggerKey, JobKey jobKey);

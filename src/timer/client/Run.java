@@ -11,6 +11,7 @@ import org.quartz.SimpleTrigger;
 
 import timer.SchedulerService;
 import timer.SchedulerServiceImpl;
+import timer.client.jobs.AnotherJob;
 import timer.client.jobs.TaskJob;
 
 public class Run {
@@ -27,5 +28,7 @@ public class Run {
 		schedulerService.createJobDetailWithDate("job1", "group1", TaskJob.class, startDate1, Arrays.asList("First Task", "Task param1", "Task Param2"));
 
 		schedulerService.createJobDetailWithDate("job2", "group2", TaskJob.class, startDate2, Arrays.asList("Second Task", "Task param1", "Task Param2"));
+		
+		schedulerService.createJobDetailWithCron("job3", "group2", AnotherJob.class, "0 0/2 * 1/1 * ? *",  Arrays.asList(""));
 	}
 }
