@@ -1,4 +1,4 @@
-package timer.jobs;
+package timer.client.jobs;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;

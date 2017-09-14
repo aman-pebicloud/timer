@@ -5,7 +5,6 @@ import static org.quartz.TriggerBuilder.newTrigger;
 
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.quartz.Job;
 import org.quartz.JobDetail;
@@ -16,31 +15,42 @@ import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
 import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SchedulerServiceImpl implements SchedulerService {
 
 	Scheduler scheduler;
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public void schedule(JobDetail jobDetail, Trigger trigger) throws SchedulerException, InterruptedException {
-		Logger logger = Logger.getAnonymousLogger();
 		scheduler = StdSchedulerFactory.getDefaultScheduler();
 		scheduler.start();
-		logger.info("scheduler started");
-		if (!jobExists(jobDetail))
+		if (!jobExists(jobDetail)) {
 			scheduler.scheduleJob(jobDetail, trigger);
-		else
-			logger.warning("Job already exist");
+			logger.info("*** Job created and scheduled ***");
+		} else
+			logger.warn("Job already exist");
 	}
 
-	public <T extends Job> JobDetail createJobDetail(String jobName, String group, Class<T> myjob,
-			List<String> invocationArgs) {
+	public <T extends Job> JobDetail createJobDetailWithDate(final String jobName, final String group,
+			final Class<T> myjob, final Date when, final List<String> invocationArgs) {
 		String taskName = invocationArgs.get(0);
 		JobDetail jobDetail = newJob(myjob).withIdentity(jobName, group).usingJobData("taskName", taskName).build();
+		SimpleTrigger simpleTrigger = buildExactTimeTrigger(jobName, group, when);
+		try {
+			schedule(jobDetail, simpleTrigger);
+			logger.info("*** Job created ***");
+		} catch (SchedulerException | InterruptedException e) {
+			logger.info("error occured in creating job with Date, {}", e.getMessage());
+			e.printStackTrace();
+		}
 		return jobDetail;
 	}
 
-	public SimpleTrigger buildExactTimeTrigger(final String jobName, final String group, final Date when) {
+	private SimpleTrigger buildExactTimeTrigger(final String jobName, final String group, final Date when) {
 		SimpleTrigger trigger = (SimpleTrigger) newTrigger().withIdentity(jobName, group).startAt(when).build();
+		logger.info("*** Trigger created with exact date, {} ***", when);
 		return trigger;
 	}
 

@@ -9,7 +9,6 @@
 	<classpathentry kind="lib" path="/home/aman/Downloads/quartz-2.2.3/lib/quartz-jobs-2.2.3.jar"/>
 	<classpathentry kind="lib" path="/home/aman/Downloads/quartz-2.2.3/lib/quartz-2.2.3.jar"/>
 	<classpathentry kind="lib" path="/home/aman/Downloads/postgresql-9.4.1212.jre6.jar"/>
-	<classpathentry kind="lib" path="/home/aman/workspace/scheduler/javaee-web-api-6.0.jar"/>
-	<classpathentry kind="lib" path="/home/aman/workspace/scheduler/bin/javaee-web-api-6.0.jar"/>
+	<classpathentry kind="lib" path="/home/aman/workspace/javaee-web-api-6.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

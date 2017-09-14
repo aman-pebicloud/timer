@@ -14,10 +14,8 @@ import org.quartz.TriggerKey;
 public interface SchedulerService {
 	public void schedule(JobDetail jobDetail, Trigger trigger) throws SchedulerException, InterruptedException;
 
-	public <T extends Job> JobDetail createJobDetail(String jobName, String group, Class<T> myjob,
+	public <T extends Job> JobDetail createJobDetailWithDate(String jobName, String group, Class<T> myjob, Date when,
 			List<String> invocationArgs);
-
-	public SimpleTrigger buildExactTimeTrigger(final String jobName, final String group, final Date when);
 
 	public boolean jobExists(final JobDetail job);
 
