@@ -1,15 +1,15 @@
 package timer;
 
+import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SchedulerProvider {
-	Logger log = LoggerFactory.getLogger(getClass());
+	SchedulerServiceImpl service;
 
-	public SchedulerService newSchedulerService() {
-		SchedulerServiceImpl service = new SchedulerServiceImpl();
-		log.info("Created SchedulerServiceImpl");
-		return service;
+	public boolean newSchedulerService() {
+		service = new SchedulerServiceImpl();
+		return service != null;
 	}
 
 	public static SchedulerProvider getInstance() {
@@ -20,4 +20,7 @@ public class SchedulerProvider {
 		static final SchedulerProvider instance = new SchedulerProvider();
 	}
 
+	public void shutDown() throws SchedulerException {
+		this.service.shutdown();
+	}
 }

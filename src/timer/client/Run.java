@@ -4,10 +4,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import org.quartz.JobDetail;
+import org.quartz.JobKey;
 import org.quartz.SchedulerException;
 import org.quartz.SimpleTrigger;
+import org.quartz.TriggerKey;
 
 import timer.SchedulerService;
 import timer.SchedulerServiceImpl;
@@ -18,17 +22,37 @@ public class Run {
 
 	public static void main(String[] args) throws SchedulerException, InterruptedException, ParseException {
 		SchedulerService schedulerService = new SchedulerServiceImpl();
-		
-		String task1startDateString = "09-14-2017 14:43:00";
-		Date startDate1 = new SimpleDateFormat("MM-dd-yyyy HH:mm:SS").parse(task1startDateString);
 
-		String task2startDateString = "09-14-2017 14:43:00";
-		Date startDate2 = new SimpleDateFormat("MM-dd-yyyy HH:mm:SS").parse(task2startDateString);
+		long task1startDateString = 1505828040000l;
+		Date startDate1 = new Date(task1startDateString);
+		System.out.println(startDate1);
 		
-		schedulerService.createJobDetailWithDate("job1", "group1", TaskJob.class, startDate1, Arrays.asList("First Task", "Task param1", "Task Param2"));
+		long task2startDateString = 1505828040000l;
+		Date startDate2 = new Date(task2startDateString);
+		System.out.println(startDate2);
+		
+		schedulerService.createJobDetailWithDate("trigger1", "job1", "group1", TaskJob.class, startDate1,
+				Arrays.asList("First Task", "Task param1", "Task Param2"));
 
-		schedulerService.createJobDetailWithDate("job2", "group2", TaskJob.class, startDate2, Arrays.asList("Second Task", "Task param1", "Task Param2"));
+		schedulerService.createJobDetailWithDate("trigger2", "job2", "group1", TaskJob.class, startDate2,
+				Arrays.asList("Second Task", "Task param1", "Task Param2"));
+
+		schedulerService.createJobDetailWithCron("trigger2", "job3", "group2", AnotherJob.class, "0 0/2 * 1/1 * ? *",
+				Arrays.asList(""));
 		
-		schedulerService.createJobDetailWithCron("job3", "group2", AnotherJob.class, "0 0/2 * 1/1 * ? *",  Arrays.asList(""));
+//		schedulerService.deleteJob(new TriggerKey("job1", "group1"), new JobKey("job3", "group2") );
+//		schedulerService.deleteJob(new TriggerKey("job3", "group2"), new JobKey("job2", "group1") );
+	
+		
+/*		List<String> list = schedulerService.getGroupDetails();
+		for (String string : list) {
+			System.out.println(string);
+		}
+		
+		List<String> jobslist = schedulerService.getJobDetails();
+		for (String string : jobslist) {
+			System.out.println(string);
+		}
+*/		
 	}
 }

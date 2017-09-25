@@ -7,18 +7,21 @@ import org.quartz.Job;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.SchedulerException;
-import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
 import org.quartz.TriggerKey;
 
 public interface SchedulerService {
 	public void schedule(JobDetail jobDetail, Trigger trigger) throws SchedulerException, InterruptedException;
 
-	public <T extends Job> JobDetail createJobDetailWithDate(String jobName, String group, Class<T> myjob, Date when,
+	public <T extends Job> JobDetail scheduleJobDetailWithDate(String triggerName, String jobName, String group, Class<T> myjob, Date when,
 			List<String> invocationArgs);
 
-	public <T extends Job> JobDetail createJobDetailWithCron(String jobName, String group, Class<T> myjob, String cronExpression,
+	public <T extends Job> JobDetail scheduleJobDetailWithCron(String triggerName, String jobName, String group, Class<T> myjob, String cronExpression,
 			List<String> invocationArgs);
+	
+	public List<String> getGroupDetails();
+	
+	public List<String> getJobDetails();
 	
 	public boolean jobExists(final JobDetail job);
 

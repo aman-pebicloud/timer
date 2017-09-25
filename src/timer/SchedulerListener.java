@@ -3,6 +3,7 @@ package timer;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,18 +14,23 @@ import org.slf4j.LoggerFactory;
 
 public class SchedulerListener implements ServletContextListener {
 
+	SchedulerProvider provider = SchedulerProvider.getInstance();
 	Logger log = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
-		// TODO Auto-generated method stub
-
+		try {
+			provider.shutDown();
+			log.info("*** wavity scheduler shutdown successfully ***");
+		} catch (SchedulerException e) {
+			log.error("*** wavity scheduler shutdown failed ***");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		SchedulerProvider provider = SchedulerProvider.getInstance();
-		SchedulerService service = provider.newSchedulerService();
+		provider.newSchedulerService();
 		log.info("*** wavity search provider instance initialized ***");
 	}
 }
