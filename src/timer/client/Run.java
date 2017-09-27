@@ -31,13 +31,13 @@ public class Run {
 		Date startDate2 = new Date(task2startDateString);
 		System.out.println(startDate2);
 		
-		schedulerService.createJobDetailWithDate("trigger1", "job1", "group1", TaskJob.class, startDate1,
+		schedulerService.scheduleJobDetailWithDate("trigger1", "job1", "group1", TaskJob.class, startDate1,
 				Arrays.asList("First Task", "Task param1", "Task Param2"));
 
-		schedulerService.createJobDetailWithDate("trigger2", "job2", "group1", TaskJob.class, startDate2,
+		schedulerService.scheduleJobDetailWithDate("trigger2", "job2", "group1", TaskJob.class, startDate2,
 				Arrays.asList("Second Task", "Task param1", "Task Param2"));
 
-		schedulerService.createJobDetailWithCron("trigger2", "job3", "group2", AnotherJob.class, "0 0/2 * 1/1 * ? *",
+		schedulerService.scheduleJobDetailWithCron("trigger2", "job3", "group2", AnotherJob.class, "0 0/2 * 1/1 * ? *",
 				Arrays.asList(""));
 		
 //		schedulerService.deleteJob(new TriggerKey("job1", "group1"), new JobKey("job3", "group2") );

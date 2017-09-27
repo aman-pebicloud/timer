@@ -1,8 +1,6 @@
 package timer;
 
 import org.quartz.SchedulerException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SchedulerProvider {
 	SchedulerServiceImpl service;
